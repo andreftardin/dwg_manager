@@ -30,22 +30,48 @@ class RFI:
         else:
             return "The {subject} drawing has RFI {number} not resolved. Question below:\n {question}".format(subject=self.subject, number=self.number, question=self.question)
 
-#Define Functions
+#Define Functions:
+#Menu selection functions:
 def drawing_menu():
     drawings_menu_selection = input("Select subject:\n 1. Structural;\n 2. Architectural;\n 3. Mechanical.\n")
+    return drawings_menu_selection
 def rfi_menu_selection():
-    rfi_menu_selection = input("Select below:\n 1. Add new RFI;\n 2. View Outstanding RFIs;\n 3. View Completed RFIs. \n")
+    rfi_menu_selection = input("Select below:\n 1. Add new RFI;\n 2. View RFIs Status;\n")
+    return rfi_menu_selection
+#Add new drawing with revision:
+def revise_dwg(subject, revision):
+    pass
+
+
+
 
 welcome_message = "Welcome to Drawing Manager!"
 options_message = "\n For Drawings press 1.\n For RFIs press 2.\n To exit press 3.\n"
 user_selection = input(welcome_message + options_message)
 
+#Check for correct input on main menu:
 while user_selection != "1" and user_selection != "2" and user_selection != "3":
     user_selection = input("Wrong selection, Try again." + options_message)
 
+#Check for selected main option:
 if user_selection == "1":
-    drawing_menu()
+    selection = drawing_menu()
+    if  selection == "1":
+        print("Structural selected")
+    elif selection == "2":
+        print("Architectural selected")
+    elif selection == "3":
+        print("Mechanical selected")
+    else:
+        print("Wrong input")
 elif user_selection == "2":
-    rfi_menu_selection() 
+    selection = rfi_menu_selection()
+    if selection == "1":
+        print("Adding new RFI select drawing to add now")
+    elif selection == "2":
+        print("select subject drawing to show rfi status")
+    else:
+        print("Wrong Selection") 
 else:
     print("Exiting Drawing Manager!")
+
