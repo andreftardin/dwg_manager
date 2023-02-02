@@ -1,11 +1,11 @@
 
-#Define Dictionaries for DWG and RFI
-drawings = {"Strucutral":0, "Architectural":0, "Mechanical":0}
-rfis = {}
+#Define List of OBJs for DWG and RFI
+drawings = []
+rfis = []
 
 #Create Classes
 class Drawings:
-    def __init__(self, subject, revision, total_rfis=0):
+    def __init__(self, subject, revision=0, total_rfis=0):
         self.subject = subject
         self.revision = revision
         self.total_rfis = total_rfis
@@ -16,10 +16,24 @@ class Drawings:
         else:
             return "The {subject} drawing is currently on revision {revision} and has no RFIs.".format(subject=self.subject, revision=self.revision)
 
+    def change_revision(self):
+        #self.revision = new_rev
+        for drawing in drawings:
+            if subject_selection == drawing.subject:
+                new_rev = input("Input new revision number for {subject} drawing:\n".format(subject=self.subject))
+                self.revision = new_rev
+                print(drawing.revision)
+                print("{subject} Drawing changed to revision {revision}.".format(subject=self.subject, revision=self.revision))
+
+
 class RFI:
-    def __init__(self, subject, question, number=len(rfis)+1, resolved=False, answer=""):
+    #GENERATE NUMBER FOR RFIS WITHOUT INPUT
+    _next_num = 1
+    def __init__(self, subject, question, resolved=False, answer=""):
         self.subject = subject
-        self.number = number
+        self.number = self._next_num
+        #ADD RFI NUMBER AUTOMATICALLY TO CLASS
+        type(self)._next_num += 1 
         self.question = question
         self.resolved = resolved
         self.answer = answer
@@ -30,19 +44,42 @@ class RFI:
         else:
             return "The {subject} drawing has RFI {number} not resolved. Question below:\n {question}".format(subject=self.subject, number=self.number, question=self.question)
 
+
 #Define Functions:
 #Menu selection functions:
 def drawing_menu():
-    drawings_menu_selection = input("Select subject:\n 1. Structural;\n 2. Architectural;\n 3. Mechanical.\n")
-    return drawings_menu_selection
+    subject_selection = input("Type selected subject: Structural, Architectural or Mechanical.\n")
+    return subject_selection
+
+
 def rfi_menu_selection():
     rfi_menu_selection = input("Select below:\n 1. Add new RFI;\n 2. View RFIs Status;\n")
     return rfi_menu_selection
-#Add new drawing with revision:
-def revise_dwg(subject, revision):
-    pass
 
+#Link RFIs to each subjected drawing - make an update function
+def update_rfi_count():
+    for drawing in drawings:
+        for rfi in rfis:
+            if drawing.subject == rfi.subject:
+                drawing.total_rfis += 1
+        print(drawing.total_rfis)
 
+stru = Drawings("Structural")
+arch = Drawings("Architectural")
+mech = Drawings("Mechanical")
+drawings.append(stru)
+drawings.append(arch)
+drawings.append(mech)
+#print(drawings)
+rfi1 = RFI("Structural", "Confirm size of column C1?")
+rfi2 = RFI("Structural", "Review size of elevator shaft opening?")
+rfi3 = RFI("Architectural", "Waterproofing detail not on drawings")
+rfis.append(rfi1)
+rfis.append(rfi2)
+rfis.append(rfi3)
+
+#Initialize with an update after creation of RFIs
+update_rfi_count()
 
 
 welcome_message = "Welcome to Drawing Manager!"
@@ -53,17 +90,22 @@ user_selection = input(welcome_message + options_message)
 while user_selection != "1" and user_selection != "2" and user_selection != "3":
     user_selection = input("Wrong selection, Try again." + options_message)
 
+
 #Check for selected main option:
 if user_selection == "1":
-    selection = drawing_menu()
-    if  selection == "1":
-        print("Structural selected")
-    elif selection == "2":
-        print("Architectural selected")
-    elif selection == "3":
-        print("Mechanical selected")
+    subject_selection = input("Type selected subject: Structural, Architectural or Mechanical.\n")
+    action = input("{sub} selected.\n 1. To add revision.\n 2. To view status.\n".format(sub=subject_selection))
+    if action == "1":
+        for drawing in drawings:
+            if drawing.subject == subject_selection:
+                drawing.change_revision()
+    elif action == "2":
+        for drawing in drawings:
+            if drawing.subject == subject_selection:
+                    print(drawing)
     else:
-        print("Wrong input")
+            print("wrong Selection")            
+
 elif user_selection == "2":
     selection = rfi_menu_selection()
     if selection == "1":
