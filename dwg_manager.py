@@ -62,7 +62,6 @@ def update_rfi_count():
         for rfi in rfis:
             if drawing.subject == rfi.subject:
                 drawing.total_rfis += 1
-        print(drawing.total_rfis)
 
 stru = Drawings("Structural")
 arch = Drawings("Architectural")
