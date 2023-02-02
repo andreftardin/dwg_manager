@@ -13,8 +13,5 @@ This script main idea is track construction drawings with their revision, add ne
 
 The menus would guide you to what you need (like information and status of items and if you wanna add or change something).
 
-##Link
-
-
 ## Thanks!
 It looks basic but I took it as a big thing having little time to manage between working, having 2 toddlers and learn. Thanks all for the support!
