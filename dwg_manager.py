@@ -109,9 +109,18 @@ if user_selection == "1":
 elif user_selection == "2":
     selection = rfi_menu_selection()
     if selection == "1":
-        print("Adding new RFI select drawing to add now")
+        new_rfi_subject = input("Type subject (Structural/Architectural/Mechanical):\n")
+        new_rfi_question = input("Input question:\n")
+        new_rfi = RFI(new_rfi_subject, new_rfi_question)
+        update_rfi_count()
+        print("Adding new RFI for {subject} drawing!".format(subject=new_rfi_subject))
     elif selection == "2":
-        print("select subject drawing to show rfi status")
+        subject_selection = input("Type selected subject: Structural, Architectural or Mechanical.\n")
+        for drawing in drawings:
+            if drawing.subject == subject_selection:
+                for rfi in rfis:
+                    if rfi.subject == subject_selection:
+                        print(rfi)
     else:
         print("Wrong Selection") 
 else:
